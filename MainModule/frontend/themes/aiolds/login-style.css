@@ -1,0 +1,10 @@
+vaadin-login-overlay-wrapper::part(brand) {
+    /*background-image: url("/images/aiolds.png");*/
+    /*background-repeat: round;*/
+    /*background-size: cover;*/
+
+    background-image: url(/images/aiolds.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+}

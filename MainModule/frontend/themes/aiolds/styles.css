@@ -1,0 +1,15 @@
+@import "login-style.css";
+@import url('./main-layout.css');
+@import "theme-editor.css";
+   html {
+      --lumo-primary-color: hsl(214, 42%, 42%);
+      --lumo-primary-color-50pct: hsla(214, 42%, 42%, 0.5);
+      --lumo-primary-color-10pct: hsla(214, 42%, 42%, 0.1);
+--lumo-font-family: Arimo;
+
+    }
+
+    [theme~="dark"] {
+      --lumo-base-color: hsl(214, 42%, 50%);
+
+    }
