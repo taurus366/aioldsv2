@@ -10,7 +10,7 @@
 
     <modules>
         <module>MainModule</module>
-<!--        <module>Shared</module>-->
+        <module>ProfileModule</module>
 <!--        <module>i18n</module>-->
 <!--        <module>profile</module>-->
     </modules>

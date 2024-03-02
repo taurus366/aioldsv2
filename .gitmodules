@@ -1,0 +1,3 @@
+[submodule "ProfileModule"]
+	path = ProfileModule
+	url = https://github.com/taurus366/ProfileModule.git
