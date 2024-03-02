@@ -5,6 +5,6 @@ import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.theme.Theme;
 
 @Push
-//@Theme(value = "aiolds")
+@Theme(value = "aiolds")
 public class MainModuleAppShellConfigurator implements AppShellConfigurator {
 }
