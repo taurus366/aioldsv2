@@ -2,6 +2,7 @@
 @import "theme-editor.css";
 @import "main_layout/bell.css";
 @import "main_layout/sidebar.css";
+@import "main_layout/user_submenu.css";
    html {
       --lumo-primary-color: hsl(214, 42%, 42%);
       --lumo-primary-color-50pct: hsla(214, 42%, 42%, 0.5);

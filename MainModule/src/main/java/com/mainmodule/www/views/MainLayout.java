@@ -148,7 +148,9 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             MenuBar userMenu = new MenuBar();
             userMenu.setThemeName("tertiary-inline contrast");
 
+
             MenuItem userName = userMenu.addItem("");
+
             Div div = new Div();
             div.add(avatar);
             div.add(userEntity.getName());
