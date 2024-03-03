@@ -20,10 +20,7 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
@@ -36,6 +33,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Route(value = "user")
+@RouteAlias("")
 @PermitAll
 public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver {
 
