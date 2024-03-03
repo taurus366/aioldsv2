@@ -1,6 +1,7 @@
 package com.mainmodule.www.views;
 
 import com.profilemodule.www.config.security.AuthenticatedUser;
+import com.profilemodule.www.model.entity.UserEntity;
 import com.vaadin.flow.component.PropertyDescriptor;
 import com.vaadin.flow.component.Synchronize;
 import com.vaadin.flow.component.Text;
@@ -49,7 +50,6 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker) {
         this.authenticatedUser = authenticatedUser;
         this.accessChecker = accessChecker;
-        System.out.println("111");
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent(UI.getCurrent());
@@ -60,7 +60,6 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         H1 appName = new H1(title);
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
-        header.getStyle().set("box-shadow", "1px 2px 20px 0px");
 
         Scroller scroller = new Scroller(createNavigation());
 
@@ -131,48 +130,50 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     private Footer createFooter() {
         Footer layout = new Footer();
 
-//        Optional<UserEntity> maybeUser = authenticatedUser.get();
-//        if (maybeUser.isPresent()) {
-//            UserEntity userEntity = maybeUser.get();
-//
-//            Avatar avatar = new Avatar(userEntity.getName());
+        Optional<UserEntity> maybeUser = authenticatedUser.get();
+        if (maybeUser.isPresent()) {
+            UserEntity userEntity = maybeUser.get();
+
+            Avatar avatar = new Avatar(userEntity.getName());
 //            if(userEntity.getProfilePicture() != null){
 //                StreamResource resource = new StreamResource("profile-pic",
 //                        () -> new ByteArrayInputStream(userEntity.getProfilePicture()));
 //                avatar.setImageResource(resource);
 //            }
-//
-//
+
+
 //            avatar.setThemeName("xsmall");
-//            avatar.getElement().setAttribute("tabindex", "-1");
-//
-//            MenuBar userMenu = new MenuBar();
-//            userMenu.setThemeName("tertiary-inline contrast");
-//
-//            MenuItem userName = userMenu.addItem("");
-//            Div div = new Div();
-//            div.add(avatar);
-//            div.add(userEntity.getName());
-//            div.add(new Icon("lumo", "dropdown"));
-//            div.getElement().getStyle().set("display", "flex");
-//            div.getElement().getStyle().set("align-items", "center");
-//            div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
-//            userName.add(div);
+            avatar.getElement().setAttribute("tabindex", "-1");
+
+            MenuBar userMenu = new MenuBar();
+            userMenu.setThemeName("tertiary-inline contrast");
+
+            MenuItem userName = userMenu.addItem("");
+            Div div = new Div();
+            div.add(avatar);
+            div.add(userEntity.getName());
+            div.add(new Icon("lumo", "dropdown"));
+            div.getElement().getStyle().set("display", "flex");
+            div.getElement().getStyle().set("align-items", "center");
+            div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
+            userName.add(div);
 //            final String profileTitle = languageProvider.getTranslation("Profile", Locale.of(userLocale));
-//            userName.getSubMenu().addItem(profileTitle, e -> {
-//                getUI().ifPresent(ui -> ui.navigate("profile"));
-//            });
+            final String profileTitle = "Profile";
+            userName.getSubMenu().addItem(profileTitle, e -> {
+                getUI().ifPresent(ui -> ui.navigate("profile"));
+            });
 //            final String signOutTitle = languageProvider.getTranslation("SignOut", Locale.of(userLocale));
-//            userName.getSubMenu().addItem(signOutTitle, e -> {
-//                authenticatedUser.logout();
-//            });
-//
-//            layout.add(userMenu);
-//        }
-//        else {
-//            Anchor loginLink = new Anchor("login", "Sign in");
-//            layout.add(loginLink);
-//        }
+            final String signOutTitle = "Sign out";
+            userName.getSubMenu().addItem(signOutTitle, e -> {
+                authenticatedUser.logout();
+            });
+
+            layout.add(userMenu);
+        }
+        else {
+            Anchor loginLink = new Anchor("login", "Sign in");
+            layout.add(loginLink);
+        }
 
         return layout;
     }
@@ -211,7 +212,8 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
 
 //        final Button button = notification.initUI(userId, userLocale, ui);
-//        addToNavbar(false, toggle, viewTitle, spacer, button);
+        addToNavbar(false, toggle, spacer, bellBtn);
+//        addToNavbar(bellBtn);
 
 
     }
