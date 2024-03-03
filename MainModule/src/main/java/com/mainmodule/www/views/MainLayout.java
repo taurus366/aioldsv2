@@ -33,7 +33,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Route(value = "user")
-@RouteAlias("")
 @PermitAll
 public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver {
 
