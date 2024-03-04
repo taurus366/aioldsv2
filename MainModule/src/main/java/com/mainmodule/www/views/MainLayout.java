@@ -1,9 +1,10 @@
 package com.mainmodule.www.views;
 
+import com.mainmodule.www.views.user.UserListView;
 import com.profilemodule.www.config.security.AuthenticatedUser;
 import com.profilemodule.www.model.entity.UserEntity;
-import com.vaadin.flow.component.PropertyDescriptor;
-import com.vaadin.flow.component.Synchronize;
+import com.profilemodule.www.model.repository.UserRepository;
+import com.profilemodule.www.view.user.UserListImpl;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -21,32 +22,30 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
+import com.vaadin.flow.theme.lumo.LumoIcon;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
-
-import java.io.ByteArrayInputStream;
 import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.Optional;
 
 @Route(value = "user")
+//@RouteAlias("")
 @PermitAll
 public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver {
 
-
     private final AuthenticatedUser authenticatedUser;
     private final AccessAnnotationChecker accessChecker;
+    private final UserRepository userRepository;
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 
     }
 
-    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker) {
+    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, UserRepository userRepository) {
         this.authenticatedUser = authenticatedUser;
         this.accessChecker = accessChecker;
+        this.userRepository = userRepository;
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent(UI.getCurrent());
@@ -66,60 +65,11 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
-//        if (accessChecker.hasAccess(AboutView.class)) {
-//            nav.addItem(new SideNavItem("About", AboutView.class, LineAwesomeIcon.FILE.create()));
-//
-//        }
-
 //        if(accessChecker.hasAccess(UserListView.class)) {
-////            nav.addItem(new SideNavItem("User list", UserListView.class, LineAwesomeIcon.USERS_SOLID.create()));
-//            final String userListTitle = languageProvider.getTranslation("userList", Locale.of(userLocale));
-////            SideNavItem userNavItem = new SideNavItem(userListTitle);
-////                userNavItem.setPrefixComponent(VaadinIcon.USERS.create());
 //
-//            // Add items to the nested menu
-////            userNavItem.addItem(new SideNavItem("User list", UserListView.class, LineAwesomeIcon.USERS_SOLID.create()));
-//
-////            nav.addItem(userNavItem);
-//            final SideNavItem sideNavItem = new SideNavItem(userListTitle, UserListView.class, LineAwesomeIcon.USERS_SOLID.create());
-//            makeHoverLeaveEffect(sideNavItem);
-//            nav.addItem(sideNavItem);
+//                final SideNavItem sideNavItem = new SideNavItem("asd", UserListView.class, LumoIcon.USER.create());
+//                nav.addItem(sideNavItem);
 //        }
-//
-//        if(accessChecker.hasAccess(StatsView.class)) {
-//            final String title = languageProvider.getTranslation("Stats", Locale.of(userLocale));
-//            final SideNavItem sideNavItem = new SideNavItem(title, StatsView.class, LineAwesomeIcon.SASS.create());
-//            makeHoverLeaveEffect(sideNavItem);
-//            nav.addItem(sideNavItem);
-//        }
-//
-//        if(accessChecker.hasAccess(InquiryView.class)) {
-//            final String title = languageProvider.getTranslation("Inquiry", Locale.of(userLocale));
-//            final SideNavItem sideNavItem = new SideNavItem(title, InquiryView.class, LineAwesomeIcon.QUESTION_SOLID.create());
-//            makeHoverLeaveEffect(sideNavItem);
-//            nav.addItem(sideNavItem);
-//        }
-//
-//
-//        final String settingsTitle = languageProvider.getTranslation("Settings", Locale.of(userLocale));
-        /// SETTINGS
-//        SideNavItem settingsNavItem = new SideNavItem(settingsTitle);
-//        makeHoverLeaveEffect(settingsNavItem);
-//        settingsNavItem.setPrefixComponent(VaadinIcon.OPTIONS.create());
-//        if(accessChecker.hasAccess(PriceListSettingsView.class)){
-//            final String priceListTitle = languageProvider.getTranslation("PriceList", Locale.of(userLocale));
-//            final SideNavItem sideNavItem = new SideNavItem(priceListTitle, PriceListSettingsView.class, LineAwesomeIcon.DOLLAR_SIGN_SOLID.create());
-//            makeHoverLeaveEffect(sideNavItem);
-//            settingsNavItem.addItem(sideNavItem);
-//        }
-//        if(accessChecker.hasAccess(PriceListGroupSettingsView.class)){
-//            final String priceListGroupTitle = languageProvider.getTranslation("PriceListGroup", Locale.of(userLocale));
-//            final SideNavItem sideNavItem = new SideNavItem(priceListGroupTitle, PriceListGroupSettingsView.class, LineAwesomeIcon.OBJECT_GROUP.create());
-//            makeHoverLeaveEffect(sideNavItem);
-//            settingsNavItem.addItem(sideNavItem);
-//        }
-
-//        nav.addItem(settingsNavItem);
 
         return nav;
     }
@@ -156,6 +106,15 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             div.getElement().getStyle().set("align-items", "center");
             div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
             userName.add(div);
+
+            if(accessChecker.hasAccess(UserListView.class)) {
+                final String usersListTitle = UserEntity.NAME;
+                userName.getSubMenu().addItem(usersListTitle, e -> {
+                    getUI().ifPresent(ui -> ui.navigate(UserListImpl.VIEW));
+                });
+            }
+
+
 //            final String profileTitle = languageProvider.getTranslation("Profile", Locale.of(userLocale));
             final String profileTitle = "Profile";
             userName.getSubMenu().addItem(profileTitle, e -> {

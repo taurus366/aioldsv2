@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @AutoConfiguration
 @SpringBootApplication
 @EnableScheduling
-@EnableVaadin
+@EnableVaadin(value = {"com.profilemodule.www", "com.mainmodule.www"})
 @ComponentScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www"})
 @EnableJpaRepositories(basePackages = {"com.profilemodule.www", "com.mainmodule.www"})
 @EntityScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www"})
