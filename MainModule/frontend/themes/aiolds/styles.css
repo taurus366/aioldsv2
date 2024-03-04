@@ -3,6 +3,10 @@
 @import "main_layout/bell.css";
 @import "main_layout/sidebar.css";
 @import "main_layout/user_submenu.css";
+@import "components/vaadin-button.css";
+@import "components/vaadin-password-field.css";
+@import "components/vaadin-text-area.css";
+@import "components/vaadin-text-field.css";
    html {
       --lumo-primary-color: hsl(214, 42%, 42%);
       --lumo-primary-color-50pct: hsla(214, 42%, 42%, 0.5);
