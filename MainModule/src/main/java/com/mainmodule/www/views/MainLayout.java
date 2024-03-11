@@ -4,7 +4,7 @@ import com.mainmodule.www.views.user.UserListView;
 import com.profilemodule.www.config.security.AuthenticatedUser;
 import com.profilemodule.www.model.entity.UserEntity;
 import com.profilemodule.www.model.repository.UserRepository;
-import com.profilemodule.www.view.user.UserListImpl;
+import com.profilemodule.www.view.user.UserListViewImpl;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -20,10 +20,8 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
-import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
-import com.vaadin.flow.theme.lumo.LumoIcon;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
 import java.util.Arrays;
@@ -110,7 +108,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             if(accessChecker.hasAccess(UserListView.class)) {
                 final String usersListTitle = UserEntity.NAME;
                 userName.getSubMenu().addItem(usersListTitle, e -> {
-                    getUI().ifPresent(ui -> ui.navigate(UserListImpl.VIEW));
+                    getUI().ifPresent(ui -> ui.navigate(UserListViewImpl.VIEW));
                 });
             }
 
