@@ -106,9 +106,9 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             userName.add(div);
 
             if(accessChecker.hasAccess(UserListView.class)) {
-                final String usersListTitle = UserEntity.NAME;
+                final String usersListTitle = UserEntity.TITLE;
                 userName.getSubMenu().addItem(usersListTitle, e -> {
-                    getUI().ifPresent(ui -> ui.navigate(UserListViewImpl.VIEW));
+                    getUI().ifPresent(ui -> ui.navigate(UserEntity.VIEW_ROUTE));
                 });
             }
 
