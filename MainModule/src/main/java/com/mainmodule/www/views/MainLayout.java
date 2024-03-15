@@ -1,7 +1,9 @@
 package com.mainmodule.www.views;
 
+import com.mainmodule.www.views.group.GroupListView;
 import com.mainmodule.www.views.user.UserListView;
 import com.profilemodule.www.config.security.AuthenticatedUser;
+import com.profilemodule.www.model.entity.GroupEntity;
 import com.profilemodule.www.model.entity.UserEntity;
 import com.profilemodule.www.model.repository.UserRepository;
 import com.profilemodule.www.view.user.UserListViewImpl;
@@ -109,6 +111,13 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                 final String usersListTitle = UserEntity.TITLE;
                 userName.getSubMenu().addItem(usersListTitle, e -> {
                     getUI().ifPresent(ui -> ui.navigate(UserEntity.VIEW_ROUTE));
+                });
+            }
+
+            if(accessChecker.hasAccess(GroupListView.class)) {
+                final String groupListTitle = GroupEntity.TITLE;
+                userName.getSubMenu().addItem(groupListTitle, e -> {
+                   getUI().ifPresent(ui -> ui.navigate(GroupEntity.VIEW_ROUTE));
                 });
             }
 
