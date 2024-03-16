@@ -1,5 +1,6 @@
 package com.mainmodule.www.views.client;
 
+import com.profilemodule.www.config.security.AuthenticatedUser;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.router.*;
@@ -11,12 +12,19 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @PageTitle("Home")
 public class homeView extends FlexLayout implements BeforeEnterObserver {
 
-    public homeView() {
+    private final AuthenticatedUser user;
+    public homeView(AuthenticatedUser user) {
 
+        this.user = user;
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-                UI.getCurrent().getPage().setLocation("/home");
+
+        if(user.get().isPresent()) {
+            event.forwardTo("user");
+        } else {
+            UI.getCurrent().getPage().setLocation("/home");
+        }
     }
 }

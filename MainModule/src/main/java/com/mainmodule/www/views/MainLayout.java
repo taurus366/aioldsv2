@@ -6,7 +6,6 @@ import com.profilemodule.www.config.security.AuthenticatedUser;
 import com.profilemodule.www.model.entity.GroupEntity;
 import com.profilemodule.www.model.entity.UserEntity;
 import com.profilemodule.www.model.repository.UserRepository;
-import com.profilemodule.www.view.user.UserListViewImpl;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -27,6 +26,7 @@ import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 
 @Route(value = "user")
@@ -49,6 +49,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent(UI.getCurrent());
+
     }
 
     private void addDrawerContent() {
@@ -58,7 +59,6 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         Header header = new Header(appName);
 
         Scroller scroller = new Scroller(createNavigation());
-
         addToDrawer(header, scroller, createFooter());
     }
 
@@ -70,6 +70,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 //                final SideNavItem sideNavItem = new SideNavItem("asd", UserListView.class, LumoIcon.USER.create());
 //                nav.addItem(sideNavItem);
 //        }
+
 
         return nav;
     }
@@ -120,6 +121,10 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                    getUI().ifPresent(ui -> ui.navigate(GroupEntity.VIEW_ROUTE));
                 });
             }
+
+//            userName.getSubMenu().addItem("test", e -> {
+//                getUI().ifPresent(ui -> ui.navigate("test"));
+//            });
 
 
 //            final String profileTitle = languageProvider.getTranslation("Profile", Locale.of(userLocale));

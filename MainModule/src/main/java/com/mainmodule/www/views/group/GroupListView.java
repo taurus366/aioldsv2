@@ -2,7 +2,7 @@ package com.mainmodule.www.views.group;
 
 import com.mainmodule.www.views.MainLayout;
 import com.profilemodule.www.model.entity.GroupEntity;
-import com.profilemodule.www.view.group.GroupListViewImpl;
+import com.profilemodule.www.view.Impl.group.GroupListViewImpl;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
