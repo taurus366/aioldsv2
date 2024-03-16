@@ -1,4 +1,5 @@
-**Clients could send message**
+**&#x2713; Clients could send message**
+<br>**&#x2713; Full Responsible(all devices friendly)**
 
 
 ![project.png](project.png)
