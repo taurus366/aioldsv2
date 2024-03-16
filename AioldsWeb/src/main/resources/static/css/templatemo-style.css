@@ -46,13 +46,31 @@ img
 /* overlay */
 .overlay 
     {
-       width: 100%;
-       height: 100%;
-       background: rgba(0, 0, 0, 0.4);
+       /*width: 100%;*/
+       /*height: 100%;*/
+       /*background: rgba(0, 0, 0, 0.4);*/
        padding-top: 90px;
        padding-bottom: 90px;
-    }  
+    background-color: #07182bde;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    }
+
+.overlay-contact {
+    width: 100%;
+    height: 100%;
+    padding-top: 90px;
+    padding-bottom: 90px;
+    background-color: #07182bde;
+}
 /* over lay */
+/*text size*/
+.text-custom-size {
+    font-size: 1.2em;
+}
+/*text size*/
 
 /* start page container */
 @media (min-width: 768px) {
@@ -93,11 +111,11 @@ img
                 align-items: center;
         background: none repeat scroll 0 0 #fff;
     }
-.sk-spinner-rotating-plane.sk-spinner 
+.sk-spinner-rotating-plane.sk-spinner
     {
          width: 30px;
         height: 30px;
-        background-color: #28a7e9;
+        background-color: #8B95BE;
          margin: 0 auto;
         -webkit-animation: sk-rotatePlane 1.2s infinite ease-in-out;
                 animation: sk-rotatePlane 1.2s infinite ease-in-out;
@@ -140,12 +158,19 @@ img
     }
 .navbar-default .navbar-brand
     {
-        color: #28a7e9;
+        /*color: #28a7e9;*/
         font-size: 30px;
         font-weight: bold;
         height: 70px;
         line-height: 35px;
+        width: 20rem;
     }
+
+.navbar-brand > img {
+    filter: brightness(9999) invert(0.5) sepia(1) hue-rotate(192deg);
+    margin: -6px;
+}
+
 .navbar-default .nav li a
     {
         color: #666;
@@ -158,7 +183,7 @@ img
 .navbar-default .nav li a:focus,
 .navbar-default .nav li a.current
     {
-        color: #28a7e9;
+        color: #8B95BE;
     }
 
 .navbar-default .navbar-toggle
@@ -168,7 +193,7 @@ img
     }
 .navbar-default .navbar-toggle .icon-bar
     {
-        background: #28a7e9;
+        background: #8B95BE;
         border-color: transparent;
     }
 .navbar-default .navbar-toggle:hover,
@@ -178,13 +203,28 @@ img
 /* start home */       
 #home
     {
-    background: url('../images/home-bg.jpg') no-repeat;
+    /*background: url('../images/home-bg.jpg') no-repeat;*/
     background-size: cover;
     color: #fff;
     margin-top: 70px;
     text-align: center;
     width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
     }
+
+#myVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+}
+
 #home p
     {
         font-weight: 400;
@@ -207,7 +247,7 @@ img
     }
 #divider .fa
     {
-        color: #28a7e9;
+        color: #8B95BE;
         font-size: 60px;
     }
 #divider h3
@@ -233,7 +273,7 @@ img
     }
 #feature .fa
     {
-        background: #28a7e9;
+        background: #8B95BE;
         border-radius: 50%;
         color: #fff;
         display: inline-block;
@@ -261,7 +301,7 @@ img
     }
 #feature1 .fa
     {
-        background: #28a7e9;
+        background: #8B95BE;
         border-radius: 50%;
         color: #fff;
         display: inline-block;
@@ -296,7 +336,7 @@ img
     }
 #pricing .pricing .pricing-title
     {
-        background: #28a7e9;
+        background: #8B95BE;
         color: #fff;
         font-weight: bold;
         padding: 30px;
@@ -319,9 +359,9 @@ img
 #pricing .pricing .btn
     {
         background: transparent;
-        border: 1px solid #28a7e9;
+        border: 1px solid #8B95BE;
         border-radius: 0px;
-        color: #28a7e9;
+        color: #8B95BE;
         font-weight: bold;
         padding-right: 40px;
         padding-left: 40px;
@@ -330,7 +370,7 @@ img
         transition: all 0.3s ease;
     }
 #pricing .pricing .btn:hover {
-    background: #28a7e9;
+    background: #8B95BE;
     color: #fff;
 }
 /* end pricing */
@@ -371,7 +411,7 @@ img
     }
 #contact address .fa
     {
-        background: #28a7e9;
+        background: #8B95BE;
         border-radius: 50%;
         width: 40px;
         height: 40px;
@@ -397,13 +437,13 @@ img
     }
 #contact input[type="submit"]
     {
-        background: #28a7e9;
+        background: #8B95BE;
         color: #fff;
         font-weight: bold;
         transition: all 0.3s ease;
     }
 #contact input[type="submit"]:hover {
-    background: #107DB6;
+    background: #909ecc;
 }
 /* end contact */
 
