@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @Route(value = "user")
-//@RouteAlias("")
+@RouteAlias("user")
 @PermitAll
 public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver {
 

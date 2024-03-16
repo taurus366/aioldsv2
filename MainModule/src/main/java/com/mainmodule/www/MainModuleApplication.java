@@ -17,9 +17,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableVaadin(value = {"com.profilemodule.www", "com.mainmodule.www"})
-@ComponentScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www"})
-@EnableJpaRepositories(basePackages = {"com.profilemodule.www", "com.mainmodule.www"})
-@EntityScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www"})
+@ComponentScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www"})
+@EnableJpaRepositories(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www"})
+@EntityScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www"})
 public class MainModuleApplication {
 
     public static void main(String[] args) {

@@ -55,7 +55,7 @@ const bundleSizeFile = path.resolve(statsFolder, 'bundle-size.html');
 const nodeModulesFolder = path.resolve(__dirname, 'node_modules');
 const webComponentTags = '';
 
-const projectIndexHtml = path.resolve(frontendFolder, 'index.html');
+const projectIndexHtml = path.resolve(frontendFolder, 'home.html');
 
 const projectStaticAssetsFolders = [
   path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources'),
@@ -87,7 +87,7 @@ console.debug = () => {};
 
 function injectManifestToSWPlugin(): rollup.Plugin {
   const rewriteManifestIndexHtmlUrl = (manifest) => {
-    const indexEntry = manifest.find((entry) => entry.url === 'index.html');
+    const indexEntry = manifest.find((entry) => entry.url === 'home.html');
     if (indexEntry) {
       indexEntry.url = appShellUrl;
     }
@@ -246,7 +246,7 @@ function statsExtracterPlugin(): PluginOption {
         .filter((bundle) => bundle.isEntry)
         .map((bundle) => bundle.fileName);
 
-      const generatedIndexHtml = path.resolve(buildOutputFolder, 'index.html');
+      const generatedIndexHtml = path.resolve(buildOutputFolder, 'home.html');
       const customIndexData: string = readFileSync(projectIndexHtml, { encoding: 'utf-8' });
       const generatedIndexData: string = readFileSync(generatedIndexHtml, {
         encoding: 'utf-8'
@@ -784,7 +784,7 @@ export const vaadinConfig: UserConfigFn = (env) => {
         transformIndexHtml: {
           order: 'pre',
           handler(_html, { path, server }) {
-            if (path !== '/index.html') {
+            if (path !== '/home.html') {
               return;
             }
 

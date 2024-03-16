@@ -27,6 +27,6 @@ const routes = [
   ...serverSideRoutes // IMPORTANT: this must be the last entry in the array
 ];
 
-// Vaadin router needs an outlet in the index.html page to display views
+// Vaadin router needs an outlet in the home.html page to display views
 const router = new Router(document.querySelector('#outlet'));
 router.setRoutes(routes);
