@@ -1,9 +1,11 @@
 package com.mainmodule.www.views;
 
 import com.mainmodule.www.views.group.GroupListView;
+import com.mainmodule.www.views.language.LanguageListView;
 import com.mainmodule.www.views.user.UserListView;
 import com.profilemodule.www.config.security.AuthenticatedUser;
 import com.profilemodule.www.model.entity.GroupEntity;
+import com.profilemodule.www.model.entity.LanguageEntity;
 import com.profilemodule.www.model.entity.UserEntity;
 import com.profilemodule.www.model.repository.UserRepository;
 import com.vaadin.flow.component.Text;
@@ -119,6 +121,13 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                 final String groupListTitle = GroupEntity.TITLE;
                 userName.getSubMenu().addItem(groupListTitle, e -> {
                    getUI().ifPresent(ui -> ui.navigate(GroupEntity.VIEW_ROUTE));
+                });
+            }
+
+            if(accessChecker.hasAccess(LanguageListView.class)) {
+                final String languageListTitle = LanguageEntity.TITLE;
+                userName.getSubMenu().addItem(languageListTitle, e -> {
+                    getUI().ifPresent(ui -> ui.navigate(LanguageEntity.VIEW_ROUTE));
                 });
             }
 
