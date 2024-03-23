@@ -8,6 +8,9 @@ import com.profilemodule.www.model.entity.GroupEntity;
 import com.profilemodule.www.model.entity.LanguageEntity;
 import com.profilemodule.www.model.entity.UserEntity;
 import com.profilemodule.www.model.repository.UserRepository;
+import com.profilemodule.www.model.service.LanguageService;
+import com.profilemodule.www.shared.clock.DigitalClock;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -17,19 +20,28 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
+import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
+
+import java.time.Clock;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Route(value = "user")
 @RouteAlias("user")
@@ -39,15 +51,20 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     private final AuthenticatedUser authenticatedUser;
     private final AccessAnnotationChecker accessChecker;
     private final UserRepository userRepository;
+
+//    INJECT DEPENDENCIES
+    private final LanguageService languageService;
+//    INJECT DEPENDENCIES
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 
     }
 
-    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, UserRepository userRepository) {
+    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, UserRepository userRepository, LanguageService languageService) {
         this.authenticatedUser = authenticatedUser;
         this.accessChecker = accessChecker;
         this.userRepository = userRepository;
+        this.languageService = languageService;
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent(UI.getCurrent());
@@ -56,7 +73,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
     private void addDrawerContent() {
         final String title = "AIOLDS";
-        H1 appName = new H1(title);
+        H2 appName = new H2(title);
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
 
@@ -114,22 +131,31 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                 final String usersListTitle = UserEntity.TITLE;
                 userName.getSubMenu().addItem(usersListTitle, e -> {
                     getUI().ifPresent(ui -> ui.navigate(UserEntity.VIEW_ROUTE));
-                });
+                })
+                        .addComponentAsFirst(UserEntity.icon.create());
             }
 
             if(accessChecker.hasAccess(GroupListView.class)) {
                 final String groupListTitle = GroupEntity.TITLE;
                 userName.getSubMenu().addItem(groupListTitle, e -> {
                    getUI().ifPresent(ui -> ui.navigate(GroupEntity.VIEW_ROUTE));
-                });
+                })
+                        .addComponentAsFirst(GroupEntity.icon.create());
             }
 
             if(accessChecker.hasAccess(LanguageListView.class)) {
                 final String languageListTitle = LanguageEntity.TITLE;
-                userName.getSubMenu().addItem(languageListTitle, e -> {
+                       userName.getSubMenu().addItem(languageListTitle, e -> {
                     getUI().ifPresent(ui -> ui.navigate(LanguageEntity.VIEW_ROUTE));
-                });
+                })
+                               .addComponentAsFirst(LanguageEntity.icon.create());
+
+
             }
+
+
+//            final String translationStatic = CustomI18nProvider.getTranslationStatic("welcome", languageService, authenticatedUser);
+//            System.out.println(translationStatic);
 
 //            userName.getSubMenu().addItem("test", e -> {
 //                getUI().ifPresent(ui -> ui.navigate("test"));
@@ -168,8 +194,13 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         Span numberOfNotifications = new Span("4");
         numberOfNotifications.getElement().getThemeList().addAll(
                 Arrays.asList("badge", "error", "primary", "small", "pill"));
-        numberOfNotifications.getStyle().set("position", "absolute")
-                .set("transform", "translate(-40%, -85%)");
+        numberOfNotifications.getStyle()
+                .set("position", "absolute")
+                .set("transform", "translate(-40%, -85%)")
+                .set("background", "red")
+                .set("border-radius", "42%")
+                .set("padding", "1px 4px 1px 4px")
+                .set("color", "white");
 
         Button bellBtn = new Button(VaadinIcon.BELL_O.create());
         bellBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -188,10 +219,13 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         Div spacer = new Div();
         spacer.getStyle().set("flex-grow", "35");
 
+        final DigitalClock digitalClock = new DigitalClock();
+        Div clockDiv = new Div();
+            clockDiv.add(digitalClock);
 
 
 //        final Button button = notification.initUI(userId, userLocale, ui);
-        addToNavbar(false, toggle, spacer, bellBtn);
+        addToNavbar(false, toggle, spacer, bellBtn, clockDiv);
 //        addToNavbar(bellBtn);
 
 

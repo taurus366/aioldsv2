@@ -43,6 +43,7 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>com.profilemodule.www</groupId>
             <artifactId>ProfileModule</artifactId>
