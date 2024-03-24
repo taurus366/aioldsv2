@@ -10,7 +10,7 @@ import com.profilemodule.www.model.entity.UserEntity;
 import com.profilemodule.www.model.repository.UserRepository;
 import com.profilemodule.www.model.service.LanguageService;
 import com.profilemodule.www.shared.clock.DigitalClock;
-import com.vaadin.flow.component.Component;
+import com.profilemodule.www.shared.i18n.CustomI18nProvider;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -20,27 +20,24 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
-import com.vaadin.flow.dom.Element;
-import com.vaadin.flow.dom.Style;
+import com.vaadin.flow.i18n.I18NProvider;
+import com.vaadin.flow.internal.LocaleUtil;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.server.WrappedSession;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
-
-import java.time.Clock;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Locale;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 
 @Route(value = "user")
@@ -57,7 +54,6 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 //    INJECT DEPENDENCIES
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-
     }
 
     public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, UserRepository userRepository, LanguageService languageService) {
@@ -65,9 +61,11 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         this.accessChecker = accessChecker;
         this.userRepository = userRepository;
         this.languageService = languageService;
+        CustomI18nProvider.user = authenticatedUser;
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent(UI.getCurrent());
+
 
     }
 
@@ -117,6 +115,10 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
 
             MenuItem userName = userMenu.addItem("");
+
+            final String translationStatic = CustomI18nProvider.getTranslationStatic("welcome");
+            System.out.println(translationStatic);
+
 
             Div div = new Div();
             div.add(avatar);
