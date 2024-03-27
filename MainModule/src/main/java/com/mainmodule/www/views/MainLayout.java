@@ -9,8 +9,10 @@ import com.profilemodule.www.model.entity.LanguageEntity;
 import com.profilemodule.www.model.entity.UserEntity;
 import com.profilemodule.www.model.repository.UserRepository;
 import com.profilemodule.www.model.service.LanguageService;
+import com.profilemodule.www.model.service.UserService;
 import com.profilemodule.www.shared.clock.DigitalClock;
 import com.profilemodule.www.shared.i18n.CustomI18nProvider;
+import com.profilemodule.www.shared.i18n.LanguageSelector;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -18,6 +20,7 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.*;
@@ -34,6 +37,8 @@ import com.vaadin.flow.server.WrappedSession;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
@@ -48,6 +53,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     private final AuthenticatedUser authenticatedUser;
     private final AccessAnnotationChecker accessChecker;
     private final UserRepository userRepository;
+    private final UserService userService;
 
 //    INJECT DEPENDENCIES
     private final LanguageService languageService;
@@ -56,10 +62,11 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
     }
 
-    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, UserRepository userRepository, LanguageService languageService) {
+    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, UserRepository userRepository, UserService userService, LanguageService languageService) {
         this.authenticatedUser = authenticatedUser;
         this.accessChecker = accessChecker;
         this.userRepository = userRepository;
+        this.userService = userService;
         this.languageService = languageService;
         CustomI18nProvider.user = authenticatedUser;
         setPrimarySection(Section.DRAWER);
@@ -115,10 +122,6 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
 
             MenuItem userName = userMenu.addItem("");
-
-            final String translationStatic = CustomI18nProvider.getTranslationStatic("welcome");
-            System.out.println(translationStatic);
-
 
             Div div = new Div();
             div.add(avatar);
@@ -225,6 +228,10 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         Div clockDiv = new Div();
             clockDiv.add(digitalClock);
 
+
+//        LanguageSelector languageSelector = new LanguageSelector(authenticatedUser, languageService);
+//        final ComboBox<LanguageEntity> test = languageSelector.getLanguageSelectorBox("test", true);
+//        clockDiv.add(test);
 
 //        final Button button = notification.initUI(userId, userLocale, ui);
         addToNavbar(false, toggle, spacer, bellBtn, clockDiv);
