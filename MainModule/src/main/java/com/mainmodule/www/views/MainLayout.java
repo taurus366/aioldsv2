@@ -171,12 +171,14 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             final String profileTitle = "Profile";
             userName.getSubMenu().addItem(profileTitle, e -> {
                 getUI().ifPresent(ui -> ui.navigate("profile"));
-            });
+            })
+                    .addComponentAsFirst(VaadinIcon.USER.create());
 //            final String signOutTitle = languageProvider.getTranslation("SignOut", Locale.of(userLocale));
             final String signOutTitle = "Sign out";
             userName.getSubMenu().addItem(signOutTitle, e -> {
                 authenticatedUser.logout();
-            });
+            })
+                    .addComponentAsFirst(VaadinIcon.EXIT_O.create());
 
             layout.add(userMenu);
         }
