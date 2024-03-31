@@ -43,18 +43,32 @@
 						<span class="icon icon-bar"></span>
 						<span class="icon icon-bar"></span>
 					</button>
-					<a href="#" class="navbar-brand">
+				<section style="    display: flex;">
+					<a th:href="@{/}" class="navbar-brand">
 						<img src="/images/aiolds.png">
 					</a>
+
+					<article class="test" style="position: relative;top: 23px;">
+						<a href="#" onclick="changeLanguage('en_US')" th:if="${#locale.language != 'en'}" style="text-decoration: none;color: #666;font-weight: 600;">EN</a>
+						<a href="#" onclick="changeLanguage('bg_BG')" th:if="${#locale.language != 'bg'}" style="text-decoration: none;color: #666;font-weight: 600;">BG</a>
+						<form id="lang-form" class="lang-form" method="get" action="/home">
+							<!-- Hidden input field to capture the selected language -->
+							<input type="hidden" id="c_lang" name="c_lang" value="en_US">
+						</form>
+					</article>
+				</section>
+
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right text-uppercase">
-						<li><a href="#home">Home</a></li>
-						<li><a href="#feature">Features</a></li>
-						<li><a href="#pricing">Pricing</a></li>
-						<li><a href="#download">Download</a></li>
-						<li><a href="#contact">Contact</a></li>
+						<li><a href="#home" th:text="#{Home}">Home</a></li>
+<!--						<li><a href="#feature" th:text="#{Features}">Features</a></li>-->
+						<li><a href="#pricing" th:text="#{Prices}">Prices</a></li>
+<!--						<li><a href="#download">Download</a></li>-->
+						<li><a href="#contact" th:text="#{Contact}">Contact</a></li>
+						<li><a href="#contact" th:text="#{OurProjects}">Our projects</a></li>
 					</ul>
+
 				</div>
 			</div>
 		</nav>
@@ -67,7 +81,7 @@
 						<div class="col-md-1"></div>
 						<div class="col-md-10 wow fadeIn" data-wow-delay="0.3s">
 							<h1 class="text-upper">All In One Limitless Dynamic System</h1>
-							<p class="tm-white text-custom-size">В All In One Limitless Dynamic System, преопределяме възможностите и ви даваме сила да се впуснете в безупречна ефективност. Нашите интегрирани решения обединяват силата на иновациите и универсалността, създавайки динамична среда, където граници се сриват, а възможностите са безкрайни.</p>
+							<p class="tm-white text-custom-size" th:text="#{SiteInfo}">В All In One Limitless Dynamic System, преопределяме възможностите и ви даваме сила да се впуснете в безупречна ефективност. Нашите интегрирани решения обединяват силата на иновациите и универсалността, създавайки динамична среда, където граници се сриват, а възможностите са безкрайни.</p>
 							<img src="/images/software-img.png" class="img-responsive" alt="home img">
 						</div>
 						<div class="col-md-1"></div>
@@ -78,6 +92,7 @@
 				<source src="/videos/code.mp4" type="video/mp4" id="video_source">
 			</video>
 		</section>
+
 
 		<!-- end home -->
 		<!-- start divider -->
@@ -224,10 +239,10 @@
 					<div class="row">
 						<div class="col-md-6 wow fadeInUp" data-wow-delay="0.6s">
 							<h2 class="text-uppercase">Връзка с нас</h2>
-							<p>
+							<p th:text="#{ContactInfo}">
 								Моля, използвайте пространството по-долу, за да споделите всички запитвания, въпроси или обратна връзка, която имате относно нашата система ERP или свързани с нея бизнес въпроси. Нашият отдаден екип се ангажира да отговори на вашите въпроси бързо и ефективно.
 							</p>
-							<p>
+							<p th:text="#{ContactInfo2}">
 								Освен това, ако имате някакви спешни въпроси или се нуждаете от незабавна помощ, не се колебайте да се свържете директно с нас
 							</p>
 							<address>
@@ -284,5 +299,13 @@
 		<script src="/js/wow.min.js"></script>
 		<script src="/js/jquery.singlePageNav.min.js"></script>
 		<script src="/js/custom.js"></script>
+		<script>
+			function changeLanguage(lang) {
+				// Set the value of the hidden input field with the selected language
+				document.getElementById('c_lang').value = lang;
+				// Submit the form
+				document.getElementById('lang-form').submit();
+			}
+		</script>
 	</body>
 </html>
