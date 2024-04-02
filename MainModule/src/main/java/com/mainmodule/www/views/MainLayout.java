@@ -1,5 +1,7 @@
 package com.mainmodule.www.views;
 
+import com.aioldsweb.www.model.entity.ContactEntity;
+import com.mainmodule.www.views.contact.ContactListView;
 import com.mainmodule.www.views.group.GroupListView;
 import com.mainmodule.www.views.language.LanguageListView;
 import com.mainmodule.www.views.user.UserListView;
@@ -29,12 +31,14 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
+import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.i18n.I18NProvider;
 import com.vaadin.flow.internal.LocaleUtil;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WrappedSession;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
+import com.vaadin.flow.theme.lumo.LumoIcon;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,6 +99,10 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 //                nav.addItem(sideNavItem);
 //        }
 
+        if(accessChecker.hasAccess(ContactListView.class)) {
+            final SideNavItem item = new SideNavItem(ContactEntity.TITLE, ContactListView.class, VaadinIcon.QUESTION.create());
+            nav.addItem(item);
+        }
 
         return nav;
     }
@@ -154,8 +162,6 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                     getUI().ifPresent(ui -> ui.navigate(LanguageEntity.VIEW_ROUTE));
                 })
                                .addComponentAsFirst(LanguageEntity.icon.create());
-
-
             }
 
 
