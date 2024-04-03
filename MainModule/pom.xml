@@ -45,6 +45,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.atomikos</groupId>
+            <artifactId>transactions-jdbc</artifactId>
+            <version>5.0.5</version> <!-- Последната версия на Atomikos -->
+        </dependency>
+
+        <dependency>
             <groupId>com.profilemodule.www</groupId>
             <artifactId>ProfileModule</artifactId>
             <version>0.0.1-SNAPSHOT</version>

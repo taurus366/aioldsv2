@@ -1,6 +1,6 @@
 import '@vaadin/polymer-legacy-adapter/style-modules.js';
-import '@vaadin/app-layout/theme/lumo/vaadin-app-layout.js';
 import '@vaadin/vertical-layout/theme/lumo/vaadin-vertical-layout.js';
+import '@vaadin/app-layout/theme/lumo/vaadin-app-layout.js';
 import 'Frontend/themes/aioldsv2/clock/digitalClock.js';
 import '@vaadin/login/theme/lumo/vaadin-login-overlay.js';
 import '@vaadin/common-frontend/ConnectionIndicator.js';

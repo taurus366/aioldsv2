@@ -257,16 +257,16 @@
 						</div>
 						<div class="col-md-6 wow fadeInUp" data-wow-delay="0.6s">
 							<div class="contact-form">
-								<form action="#" method="post">
+								<form id="contact-form" th:action="@{/api/contact}"  method="post">
 									<div class="col-md-6">
-										<input type="text" name="name" class="form-control" th:placeholder="#{Name}">
+										<input type="text" name="names" class="form-control" th:placeholder="#{Name}">
 									</div>
 									<div class="col-md-6">
 										<input type="email" name="email" class="form-control" th:placeholder="#{Email}">
 									</div>
 									<div class="col-md-12">
 										<select name="subject" style="color: black;margin-bottom: 5px;width: 100%;font-weight: 500;height: 30px;">
-											<option th:each="subject : ${subjects}" th:value="${subject}" th:text="#{${subject}}">
+											<option th:each="subject : ${subjects}" th:value="${subject.ordinal()}" th:text="#{${subject}}">
 											</option>
 										</select>
 <!--										<input type="text" name="subject" class="form-control" th:placeholder="#{Subject}">-->
@@ -285,6 +285,35 @@
 			</div>
 		</section>
 		<!-- end contact -->
+		<!-- Success message section -->
+		<div id="success-message" style="display: none;
+    /* position: absolute; */
+    /* text-align: unset; */
+    /* width: 100%; */
+    /* display: none; */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #dff0d8;
+    /* border: 1px solid #d0e9c6; */
+    /* padding: 15px; */
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div style="padding: 1.5rem;border-radius: 5%;">
+							<span>
+							<strong th:text="#{Success}"></strong>
+							<span th:text="#{FormInfoMessage}"></span>
+							</span>
+							<p th:text="#{ClickToCloseTape}" style="margin-left: 0.1rem"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- start footer -->
 		<footer>
@@ -307,6 +336,7 @@
 		<script src="/js/wow.min.js"></script>
 		<script src="/js/jquery.singlePageNav.min.js"></script>
 		<script src="/js/custom.js"></script>
+<!--		LANG-->
 		<script>
 			function changeLanguage(lang) {
 				// Set the value of the hidden input field with the selected language
@@ -315,5 +345,53 @@
 				document.getElementById('lang-form').submit();
 			}
 		</script>
+
+<!--		FETCH CONTACT-->
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				var form = document.getElementById('contact-form');
+
+				form.addEventListener('submit', function(event) {
+					// Prevent the default form submission
+					event.preventDefault();
+
+					// Serialize the form data
+					var formData = new FormData(form);
+
+					// Make the fetch POST request
+					fetch('/api/contact', {
+						method: 'POST',
+						body: formData
+					})
+							.then(function(response) {
+								// Check if the response is ok
+								if (!response.ok) {
+									throw new Error('Network response was not ok');
+								}
+
+								// Check the HTTP status code
+								if (response.status === 201) {
+									$('#success-message').show();
+									// Handle successful creation (status code 201)
+									// console.log('Contact created successfully', response.status);
+									// You can do something here after a successful contact creation
+								} else if (response.status === 409) {
+									// Handle conflict (status code 409)
+									// console.log('Conflict occurred:', response.status);
+									// You can do something here to handle the conflict
+								}
+								// Parse the JSON response
+								return response.json();
+							});
+				});
+			});
+		</script>
+<!--	SUCCESS MESSAGE-->
+	<script>
+		$('#success-message').click(function() {
+			$(this).hide();
+		});
+	</script>
+
 	</body>
 </html>
