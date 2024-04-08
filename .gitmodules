@@ -1,3 +1,6 @@
 [submodule "ProfileModule"]
 	path = ProfileModule
 	url = https://github.com/taurus366/ProfileModule.git
+[submodule "CustomerModule"]
+	path = CustomerModule
+	url = https://github.com/taurus366/CustomerModule.git

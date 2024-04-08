@@ -7,9 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ProfileModule" />
         <module name="AioldsWeb" />
         <module name="MainModule" />
+        <module name="ProfileModule" />
+        <module name="CustomerModule" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,6 +22,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AioldsWeb" options="-parameters" />
+      <module name="CustomerModule" options="-parameters" />
       <module name="MainModule" options="-parameters" />
       <module name="ProfileModule" options="-parameters" />
     </option>

@@ -12,6 +12,7 @@
         <module>MainModule</module>
         <module>ProfileModule</module>
         <module>AioldsWeb</module>
+        <module>CustomerModule</module>
 <!--        <module>i18n</module>-->
 <!--        <module>profile</module>-->
     </modules>
