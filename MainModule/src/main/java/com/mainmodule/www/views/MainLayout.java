@@ -15,6 +15,7 @@ import com.profilemodule.www.model.service.UserService;
 import com.profilemodule.www.shared.clock.DigitalClock;
 import com.profilemodule.www.shared.i18n.CustomI18nProvider;
 import com.profilemodule.www.shared.i18n.LanguageSelector;
+import com.profilemodule.www.shared.profileImg.ProfileImage;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -115,12 +116,15 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             UserEntity userEntity = maybeUser.get();
 
             Avatar avatar = new Avatar(userEntity.getName());
+            avatar.getStyle().set("border-radius", "15%");
 //            if(userEntity.getProfilePicture() != null){
 //                StreamResource resource = new StreamResource("profile-pic",
 //                        () -> new ByteArrayInputStream(userEntity.getProfilePicture()));
 //                avatar.setImageResource(resource);
 //            }
-
+        authenticatedUser.get().ifPresent(entity -> {
+            avatar.setImageResource(ProfileImage.getImgStream(entity));
+        });
 
 //            avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
