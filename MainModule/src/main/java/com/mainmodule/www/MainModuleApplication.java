@@ -17,11 +17,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @AutoConfiguration
 @SpringBootApplication
 @EnableScheduling
-@EnableVaadin(value = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www"})
-@ComponentScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www"})
-@EnableJpaRepositories(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www"})
-@EntityScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www"})
-@ConfigurationPropertiesScan(value = {"com.aioldsweb.www", "com.profilemodule.www", "com.mainmodule.www"})
+@EnableVaadin(value = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www", "com.customermodule.www"})
+@ComponentScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www", "com.customermodule.www"})
+@EnableJpaRepositories(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www", "com.customermodule.www"})
+@EntityScan(basePackages = {"com.profilemodule.www", "com.mainmodule.www", "com.aioldsweb.www", "com.customermodule.www"})
+@ConfigurationPropertiesScan(value = {"com.aioldsweb.www", "com.profilemodule.www", "com.mainmodule.www", "com.customermodule.www"})
 public class MainModuleApplication {
 
     public static void main(String[] args) {

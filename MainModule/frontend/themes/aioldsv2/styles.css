@@ -16,6 +16,19 @@
     }
 
     [theme~="dark"] {
-      --lumo-base-color: hsl(214, 42%, 50%);
+        --lumo-base-color: hsl(214, 42%, 50%);
 
+    }
+
+    .pointer {
+        cursor: pointer;
+    }
+
+    .section-line {
+        padding: 1rem;
+        margin: 1rem;
+        color: #C4C4C4;
+        font-size: 1.2rem;
+        border-bottom: 1px solid #9922ee;
+        width: -webkit-fill-available;
     }

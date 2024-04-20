@@ -2,6 +2,7 @@ package com.mainmodule.www.views;
 
 import com.aioldsweb.www.model.entity.ContactEntity;
 import com.mainmodule.www.views.contact.ContactListView;
+import com.mainmodule.www.views.contractor.sideNav.ContactorSideNav;
 import com.mainmodule.www.views.group.GroupListView;
 import com.mainmodule.www.views.language.LanguageListView;
 import com.mainmodule.www.views.user.UserListView;
@@ -104,6 +105,10 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             final SideNavItem item = new SideNavItem(ContactEntity.TITLE, ContactListView.class, VaadinIcon.QUESTION.create());
             nav.addItem(item);
         }
+
+        final SideNavItem item = ContactorSideNav.initNav();
+        nav.addItem(item);
+
 
         return nav;
     }
