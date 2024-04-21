@@ -1,12 +1,14 @@
 package com.mainmodule.www.views;
 
 import com.aioldsweb.www.model.entity.ContactEntity;
+import com.mainmodule.www.views.city.CityView;
 import com.mainmodule.www.views.contact.ContactListView;
 import com.mainmodule.www.views.contractor.sideNav.ContactorSideNav;
 import com.mainmodule.www.views.group.GroupListView;
 import com.mainmodule.www.views.language.LanguageListView;
 import com.mainmodule.www.views.user.UserListView;
 import com.profilemodule.www.config.security.AuthenticatedUser;
+import com.profilemodule.www.model.entity.CityEntity;
 import com.profilemodule.www.model.entity.GroupEntity;
 import com.profilemodule.www.model.entity.LanguageEntity;
 import com.profilemodule.www.model.entity.UserEntity;
@@ -171,6 +173,14 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                     getUI().ifPresent(ui -> ui.navigate(LanguageEntity.VIEW_ROUTE));
                 })
                                .addComponentAsFirst(LanguageEntity.icon.create());
+            }
+
+            if(accessChecker.hasAccess(CityView.class)) {
+                final String cityListTitle = CityEntity.TITLE;
+                userName.getSubMenu().addItem(cityListTitle, e -> {
+                    getUI().ifPresent(ui -> ui.navigate(CityEntity.VIEW_ROUTE));
+                })
+                        .addComponentAsFirst(CityEntity.icon.create());
             }
 
 

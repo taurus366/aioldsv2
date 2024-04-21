@@ -1,10 +1,6 @@
 package com.mainmodule.www;
 
-import com.vaadin.flow.component.page.Push;
-import com.vaadin.flow.shared.communication.PushMode;
-import com.vaadin.flow.shared.ui.Transport;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
-import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
