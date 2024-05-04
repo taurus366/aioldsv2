@@ -105,10 +105,12 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
         if(accessChecker.hasAccess(ContactListView.class)) {
             final SideNavItem item = new SideNavItem(ContactEntity.TITLE, ContactListView.class, VaadinIcon.QUESTION.create());
+//            makeHoverLeaveEffect(item);
             nav.addItem(item);
         }
 
         final SideNavItem item = ContactorSideNav.initNav();
+//        makeHoverLeaveEffect(item);
         nav.addItem(item);
 
 
@@ -265,6 +267,15 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 //        addToNavbar(bellBtn);
 
 
+    }
+
+    private void makeHoverLeaveEffect(SideNavItem sideNavItem) {
+        sideNavItem.getElement().addEventListener("mouseover", event -> {
+            sideNavItem.getStyle().set("padding-left", "10px");
+        });
+        sideNavItem.getElement().addEventListener("mouseleave", event -> {
+            sideNavItem.getStyle().remove("padding-left");
+        });
     }
 
 
