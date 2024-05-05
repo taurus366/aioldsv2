@@ -14,10 +14,11 @@ cl_update() {
     REMOTE_DIRECTORY=$3
 
     # Build Vaadin Java project
-    mvn clean package -Pproduction || { echo "Error: Maven build failed"; return 1; }
+#    mvn clean package -Pproduction || { echo "Error: Maven build failed"; return 1; }
+    mvn clean package -Pproduction -DfinalName="$FILE_NAME" || { echo "Error: Maven build failed"; return 1; }
 
     # Check if the project JAR file exists
-    PROJECT_JAR="MainModule/target/${FILE_NAME}"
+    PROJECT_JAR="MainModule/target/${FILE_NAME}.jar"
     if [ ! -f "$PROJECT_JAR" ]; then
         echo "Error: JAR file not found for project $FILE_NAME"
         return 1
