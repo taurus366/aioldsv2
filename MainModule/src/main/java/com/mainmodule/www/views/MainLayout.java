@@ -1,11 +1,10 @@
 package com.mainmodule.www.views;
 
 import com.aioldsweb.www.model.entity.ContactEntity;
-import com.mainmodule.www.views.city.CityView;
-import com.mainmodule.www.views.contact.ContactListView;
-import com.mainmodule.www.views.contractor.sideNav.ContactorSideNav;
-import com.mainmodule.www.views.group.GroupListView;
-import com.mainmodule.www.views.language.LanguageListView;
+import com.aioldsweb.www.view.Impl.ContactViewImpl;
+import com.customermodule.www.view.sideNav.ContractorNav;
+//import com.mainmodule.www.views.contact.ContactListView;
+//import com.mainmodule.www.views.contractor.sideNav.ContactorSideNav;
 import com.mainmodule.www.views.user.UserListView;
 import com.profilemodule.www.config.security.AuthenticatedUser;
 import com.profilemodule.www.model.entity.CityEntity;
@@ -17,8 +16,12 @@ import com.profilemodule.www.model.service.LanguageService;
 import com.profilemodule.www.model.service.UserService;
 import com.profilemodule.www.shared.clock.DigitalClock;
 import com.profilemodule.www.shared.i18n.CustomI18nProvider;
-import com.profilemodule.www.shared.i18n.LanguageSelector;
+import com.profilemodule.www.shared.i18n.Intl;
 import com.profilemodule.www.shared.profileImg.ProfileImage;
+import com.profilemodule.www.view.Impl.city.CityListView;
+import com.profilemodule.www.view.Impl.group.GroupListView;
+import com.profilemodule.www.view.Impl.language.LanguageListView;
+import com.profilemodule.www.view.Impl.profile.ProfileView;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -26,7 +29,6 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.*;
@@ -36,19 +38,12 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
-import com.vaadin.flow.i18n.I18NProvider;
-import com.vaadin.flow.internal.LocaleUtil;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.server.WrappedSession;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
-import com.vaadin.flow.theme.lumo.LumoIcon;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Optional;
 
 
@@ -70,6 +65,8 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
     }
 
+    private RouteConfiguration configuration;
+
     public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, UserRepository userRepository, UserService userService, LanguageService languageService) {
         this.authenticatedUser = authenticatedUser;
         this.accessChecker = accessChecker;
@@ -78,11 +75,17 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         this.languageService = languageService;
         CustomI18nProvider.user = authenticatedUser;
         setPrimarySection(Section.DRAWER);
+
+        configuration =
+                RouteConfiguration.forApplicationScope();
+
         addDrawerContent();
         addHeaderContent(UI.getCurrent());
 
 
     }
+
+
 
     private void addDrawerContent() {
         final String title = "AIOLDS";
@@ -97,22 +100,18 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
-//        if(accessChecker.hasAccess(UserListView.class)) {
-//
-//                final SideNavItem sideNavItem = new SideNavItem("asd", UserListView.class, LumoIcon.USER.create());
-//                nav.addItem(sideNavItem);
-//        }
-
-        if(accessChecker.hasAccess(ContactListView.class)) {
-            final SideNavItem item = new SideNavItem(ContactEntity.TITLE, ContactListView.class, VaadinIcon.QUESTION.create());
-//            makeHoverLeaveEffect(item);
+        if(accessChecker.hasAccess(ContactViewImpl.class)) {
+            if (!configuration.isRouteRegistered(ContactViewImpl.class)) {
+                configuration.setRoute(ContactEntity.VIEW_ROUTE, ContactViewImpl.class, MainLayout.class);
+            }
+            final SideNavItem item = new SideNavItem(ContactEntity.TITLE, ContactViewImpl.class, VaadinIcon.QUESTION.create());
             nav.addItem(item);
         }
 
-        final SideNavItem item = ContactorSideNav.initNav();
-//        makeHoverLeaveEffect(item);
-        nav.addItem(item);
-
+        if(accessChecker.hasAccess(ContractorNav.class)) {
+            final SideNavItem contractorItem = ContractorNav.initNav(MainLayout.class, accessChecker);
+            nav.addItem(contractorItem);
+        }
 
         return nav;
     }
@@ -153,8 +152,10 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
             userName.add(div);
 
+
+
             if(accessChecker.hasAccess(UserListView.class)) {
-                final String usersListTitle = UserEntity.TITLE;
+                final String usersListTitle = CustomI18nProvider.getTranslationStatic(UserEntity.TITLE);
                 userName.getSubMenu().addItem(usersListTitle, e -> {
                     getUI().ifPresent(ui -> ui.navigate(UserEntity.VIEW_ROUTE));
                 })
@@ -162,7 +163,10 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             }
 
             if(accessChecker.hasAccess(GroupListView.class)) {
-                final String groupListTitle = GroupEntity.TITLE;
+                if (!configuration.isRouteRegistered(GroupListView.class)) {
+                    configuration.setRoute(GroupEntity.VIEW_ROUTE, GroupListView.class, MainLayout.class);
+                }
+                final String groupListTitle = CustomI18nProvider.getTranslationStatic(GroupEntity.TITLE);
                 userName.getSubMenu().addItem(groupListTitle, e -> {
                    getUI().ifPresent(ui -> ui.navigate(GroupEntity.VIEW_ROUTE));
                 })
@@ -170,38 +174,46 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             }
 
             if(accessChecker.hasAccess(LanguageListView.class)) {
-                final String languageListTitle = LanguageEntity.TITLE;
+                if (!configuration.isRouteRegistered(LanguageListView.class)) {
+                    configuration.setRoute(LanguageEntity.VIEW_ROUTE, LanguageListView.class, MainLayout.class);
+                }
+                final String languageListTitle = CustomI18nProvider.getTranslationStatic(LanguageEntity.TITLE);
                        userName.getSubMenu().addItem(languageListTitle, e -> {
                     getUI().ifPresent(ui -> ui.navigate(LanguageEntity.VIEW_ROUTE));
                 })
                                .addComponentAsFirst(LanguageEntity.icon.create());
             }
 
-            if(accessChecker.hasAccess(CityView.class)) {
+//            if(accessChecker.hasAccess(CityView.class)) {
+            if(accessChecker.hasAccess(CityListView.class)) {
+//                // Check if the route is already registered
+                if (!configuration.isRouteRegistered(CityListView.class)) {
+                    configuration.setRoute(CityEntity.VIEW_ROUTE, CityListView.class, MainLayout.class);
+                }
+
+
                 final String cityListTitle = CityEntity.TITLE;
                 userName.getSubMenu().addItem(cityListTitle, e -> {
-                    getUI().ifPresent(ui -> ui.navigate(CityEntity.VIEW_ROUTE));
+                    getUI().ifPresent(ui -> {
+                        ui.getPage().setTitle(cityListTitle); // Set page title
+                        ui.navigate(CityEntity.VIEW_ROUTE);
+                    });
                 })
                         .addComponentAsFirst(CityEntity.icon.create());
             }
 
 
-//            final String translationStatic = CustomI18nProvider.getTranslationStatic("welcome", languageService, authenticatedUser);
-//            System.out.println(translationStatic);
+            final String profileTitle = CustomI18nProvider.getTranslationStatic(Intl.getProfile());
+            if (!configuration.isRouteRegistered(ProfileView.class)) {
+                configuration.setRoute("profile", ProfileView.class, MainLayout.class);
+            }
 
-//            userName.getSubMenu().addItem("test", e -> {
-//                getUI().ifPresent(ui -> ui.navigate("test"));
-//            });
-
-
-//            final String profileTitle = languageProvider.getTranslation("Profile", Locale.of(userLocale));
-            final String profileTitle = "Profile";
             userName.getSubMenu().addItem(profileTitle, e -> {
                 getUI().ifPresent(ui -> ui.navigate("profile"));
             })
                     .addComponentAsFirst(VaadinIcon.USER.create());
-//            final String signOutTitle = languageProvider.getTranslation("SignOut", Locale.of(userLocale));
-            final String signOutTitle = "Sign out";
+
+            final String signOutTitle = CustomI18nProvider.getTranslationStatic(Intl.getSignOut());
             userName.getSubMenu().addItem(signOutTitle, e -> {
                 authenticatedUser.logout();
             })
@@ -210,7 +222,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
             layout.add(userMenu);
         }
         else {
-            Anchor loginLink = new Anchor("login", "Sign in");
+            Anchor loginLink = new Anchor("login", CustomI18nProvider.getTranslationStatic(Intl.getSignIn()));
             layout.add(loginLink);
         }
 

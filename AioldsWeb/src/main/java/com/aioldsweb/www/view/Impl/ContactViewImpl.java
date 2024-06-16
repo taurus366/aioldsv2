@@ -21,13 +21,15 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+//@Component
 @Transactional
+@PermitAll
 public class ContactViewImpl extends VerticalLayout {
 
     public final int NOTIFY_DURATION = 5000;
@@ -39,6 +41,7 @@ public class ContactViewImpl extends VerticalLayout {
 
     public ContactViewImpl(ContactService contactService) {
         this.contactService = contactService;
+        add(initUI());
     }
 
     public VerticalLayout initUI() {
