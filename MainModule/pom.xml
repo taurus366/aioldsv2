@@ -188,6 +188,16 @@
     </dependencyManagement>
 
     <build>
+<!--    INCLUDE FILES ON BUILD    -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>i18n/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
