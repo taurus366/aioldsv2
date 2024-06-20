@@ -10,7 +10,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
-@PageTitle(UserEntity.TITLE)
+//@PageTitle(UserEntity.TITLE)
 @Route(value = UserEntity.VIEW_ROUTE, layout = MainLayout.class)
 @RolesAllowed({UserEntity.VIEW_ROLE})
 public class UserListView extends VerticalLayout {

@@ -155,7 +155,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
 
             if(accessChecker.hasAccess(UserListView.class)) {
-                final String usersListTitle = CustomI18nProvider.getTranslationStatic(UserEntity.TITLE);
+                final String usersListTitle = CustomI18nProvider.getTranslationStatic(UserEntity.getTranslateTitle());
                 userName.getSubMenu().addItem(usersListTitle, e -> {
                     getUI().ifPresent(ui -> ui.navigate(UserEntity.VIEW_ROUTE));
                 })
@@ -166,7 +166,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                 if (!configuration.isRouteRegistered(GroupListView.class)) {
                     configuration.setRoute(GroupEntity.VIEW_ROUTE, GroupListView.class, MainLayout.class);
                 }
-                final String groupListTitle = CustomI18nProvider.getTranslationStatic(GroupEntity.TITLE);
+                final String groupListTitle = CustomI18nProvider.getTranslationStatic(GroupEntity.getTranslateTitle());
                 userName.getSubMenu().addItem(groupListTitle, e -> {
                    getUI().ifPresent(ui -> ui.navigate(GroupEntity.VIEW_ROUTE));
                 })
@@ -177,7 +177,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                 if (!configuration.isRouteRegistered(LanguageListView.class)) {
                     configuration.setRoute(LanguageEntity.VIEW_ROUTE, LanguageListView.class, MainLayout.class);
                 }
-                final String languageListTitle = CustomI18nProvider.getTranslationStatic(LanguageEntity.TITLE);
+                final String languageListTitle = LanguageEntity.getTranslateTitle();
                        userName.getSubMenu().addItem(languageListTitle, e -> {
                     getUI().ifPresent(ui -> ui.navigate(LanguageEntity.VIEW_ROUTE));
                 })
@@ -186,16 +186,14 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
 //            if(accessChecker.hasAccess(CityView.class)) {
             if(accessChecker.hasAccess(CityListView.class)) {
-//                // Check if the route is already registered
                 if (!configuration.isRouteRegistered(CityListView.class)) {
                     configuration.setRoute(CityEntity.VIEW_ROUTE, CityListView.class, MainLayout.class);
                 }
 
-
-                final String cityListTitle = CityEntity.TITLE;
+                final String cityListTitle = CityEntity.getTranslateTitle();
                 userName.getSubMenu().addItem(cityListTitle, e -> {
                     getUI().ifPresent(ui -> {
-                        ui.getPage().setTitle(cityListTitle); // Set page title
+//                        ui.getPage().setTitle(cityListTitle); // Set page title
                         ui.navigate(CityEntity.VIEW_ROUTE);
                     });
                 })
@@ -205,11 +203,11 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
 
             final String profileTitle = CustomI18nProvider.getTranslationStatic(Intl.getProfile());
             if (!configuration.isRouteRegistered(ProfileView.class)) {
-                configuration.setRoute("profile", ProfileView.class, MainLayout.class);
+                configuration.setRoute(ProfileView.VIEW_ROUTE, ProfileView.class, MainLayout.class);
             }
 
             userName.getSubMenu().addItem(profileTitle, e -> {
-                getUI().ifPresent(ui -> ui.navigate("profile"));
+                getUI().ifPresent(ui -> ui.navigate(ProfileView.VIEW_ROUTE));
             })
                     .addComponentAsFirst(VaadinIcon.USER.create());
 
